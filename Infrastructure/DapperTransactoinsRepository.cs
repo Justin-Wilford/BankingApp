@@ -10,7 +10,12 @@ public sealed class DapperTransactionsRepository : ITransactionsRepository
     {
         _databaseOptions = databaseOptions;
     }
-    public async Task AddTransactionsAsync(Transactions transaction)
+    public async Task AddCreditAsync(Transactions transaction)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task AddDebitAsync(Transactions transaction)
     {
         throw new NotImplementedException();
     }
