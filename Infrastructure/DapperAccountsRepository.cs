@@ -1,4 +1,6 @@
 using BankingApi.Application;
+using Dapper;
+using Microsoft.Data.SqlClient;
 
 namespace BankingApi.Infrastructure;
 
@@ -12,7 +14,13 @@ public sealed class DapperAccountsRepository : IAccountsRepository
     }
     public async Task AddAccountAsync(Accounts account)
     {
-        throw new NotImplementedException();
+        await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
+        {
+            await connection.OpenAsync();
+            
+            var sql = "INSERT INTO Accounts (AccountNumber, UserId, Balance) VALUES (@AccountNumber, @UserId, @Balance)";
+            connection.Execute(sql, account);
+        }
     }
 
     public async Task<List<Accounts>> FindAllAccountsAsync()
