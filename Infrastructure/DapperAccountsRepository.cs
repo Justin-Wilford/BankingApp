@@ -23,9 +23,15 @@ public sealed class DapperAccountsRepository : IAccountsRepository
         }
     }
 
-    public async Task<List<Accounts>> FindAllAccountsAsync()
+    public async Task<List<Accounts>> FindAllAccountsAsync(int userId)
     {
-        throw new NotImplementedException();
+        await using var connection = new SqlConnection(_databaseOptions.ConnectionString);
+        
+        await connection.OpenAsync();
+
+        var sql = await connection.QueryAsync<Accounts>("SELECT * FROM Accounts Where UserId = @UserId", new {UserId = userId});
+
+        return sql.ToList();
     }
 
     public async Task<Accounts?> FindAccountByIdAsync(int accountId)
