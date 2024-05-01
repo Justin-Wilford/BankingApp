@@ -36,6 +36,13 @@ public sealed class DapperAccountsRepository : IAccountsRepository
 
     public async Task<Accounts?> FindAccountByIdAsync(int accountId)
     {
-        throw new NotImplementedException();
+        await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
+        {
+            await connection.OpenAsync();
+            
+            var sql = await connection.QuerySingleAsync<Accounts>("SELECT * FROM Accounts WHERE AccountId = @AccountId", new {AccountId = accountId});
+
+            return sql;
+        }  
     }
 }
