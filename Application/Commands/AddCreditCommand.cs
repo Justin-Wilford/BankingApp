@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankingApi.Application.Commands;
 
-public sealed class AddCreditAsync : HttpEndpoint
+public sealed class AddCreditCommand : HttpEndpoint
 {
     [HttpPost("Transaction/Credit")]
     public async Task ExecuteAsync(

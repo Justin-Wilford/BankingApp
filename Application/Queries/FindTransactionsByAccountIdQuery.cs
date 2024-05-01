@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BankingApi.Application.Queries;
 
-public sealed class FindTransactionsByAccountIdAsync : HttpEndpoint
+public sealed class FindTransactionsByAccountIdQuery : HttpEndpoint
 {
     [HttpGet("transaction/{accountId}")]
     public async Task<List<Transactions>> ExecuteAsync(

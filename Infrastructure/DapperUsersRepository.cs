@@ -1,4 +1,6 @@
 using BankingApi.Application;
+using Dapper;
+using Microsoft.Data.SqlClient;
 
 namespace BankingApi.Infrastructure;
 
@@ -13,7 +15,13 @@ public sealed class DapperUsersRepository : IUsersRepository
 
     public async Task AddUserAsync(Users users)
     {
-        throw new NotImplementedException();
+        await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
+        {
+            await connection.OpenAsync();
+            
+            var sql = "INSERT INTO Users (UserName, UserPassword) VALUES (@UserName, @UserPassword)";
+            await connection.ExecuteAsync(sql, users);
+        }
     }
 
     public async Task UpdateUserAsync(Users users)
