@@ -19,7 +19,7 @@ public sealed class DapperAccountsRepository : IAccountsRepository
             await connection.OpenAsync();
             
             var sql = "INSERT INTO Accounts (AccountNumber, UserId, Balance) VALUES (@AccountNumber, @UserId, @Balance)";
-            connection.Execute(sql, account);
+            await connection.ExecuteAsync(sql, account);
         }
     }
 

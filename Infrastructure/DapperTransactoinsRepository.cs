@@ -1,4 +1,6 @@
 using BankingApi.Application;
+using Dapper;
+using Microsoft.Data.SqlClient;
 
 namespace BankingApi.Infrastructure;
 
@@ -12,7 +14,14 @@ public sealed class DapperTransactionsRepository : ITransactionsRepository
     }
     public async Task AddCreditAsync(Transactions transaction)
     {
-        throw new NotImplementedException();
+        await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
+        {
+            await connection.OpenAsync();
+        
+            var sql = "INSERT INTO Transactions (TransactionType, Amount, AccountId, TransactionDate) VALUES ('Credit', @Amount, @AccountId, @TransactionDate);" + 
+                "Update Accounts SET Balance = Balance + 50 WHERE AccountId = @AccountId;";
+            await connection.ExecuteAsync(sql, transaction);
+        }
     }
 
     public async Task AddDebitAsync(Transactions transaction)
