@@ -26,7 +26,17 @@ public sealed class DapperUsersRepository : IUsersRepository
 
     public async Task UpdateUserAsync(Users users)
     {
-        throw new NotImplementedException();
+        await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
+        {
+            await connection.OpenAsync();
+            
+            var sql = @"UPDATE Users SET
+                            Username = @Username,
+                            UserPassword = @UserPassword
+                        WHERE UserId = @UserId";
+
+            await connection.ExecuteAsync(sql, users);
+        }    
     }
 
     public async Task<List<Users>> FindAllUsersAsync()
