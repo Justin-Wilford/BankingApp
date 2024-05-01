@@ -38,7 +38,13 @@ public sealed class DapperTransactionsRepository : ITransactionsRepository
 
     public async Task<List<Transactions>> FindTransactionsByAccountIdAsync(int accountId)
     {
-        throw new NotImplementedException();
+        await using var connection = new SqlConnection(_databaseOptions.ConnectionString);
+        
+        await connection.OpenAsync();
+
+        var sql = await connection.QueryAsync<Transactions>("SELECT * FROM Transactions Where AccountId = @AccountId", new {AccountId = accountId});
+
+        return sql.ToList();
     }
 
     public async Task<Transactions> FindTransactionsByTransactionIdAsync(int transactionId)
