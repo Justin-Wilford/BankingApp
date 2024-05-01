@@ -19,14 +19,21 @@ public sealed class DapperTransactionsRepository : ITransactionsRepository
             await connection.OpenAsync();
         
             var sql = "INSERT INTO Transactions (TransactionType, Amount, AccountId, TransactionDate) VALUES ('Credit', @Amount, @AccountId, @TransactionDate);" + 
-                "Update Accounts SET Balance = Balance + 50 WHERE AccountId = @AccountId;";
+                "Update Accounts SET Balance = Balance + @Amount WHERE AccountId = @AccountId;";
             await connection.ExecuteAsync(sql, transaction);
         }
     }
 
     public async Task AddDebitAsync(Transactions transaction)
     {
-        throw new NotImplementedException();
+        await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
+        {
+            await connection.OpenAsync();
+        
+            var sql = "INSERT INTO Transactions (TransactionType, Amount, AccountId, TransactionDate) VALUES ('Debit', @Amount, @AccountId, @TransactionDate);" + 
+                "Update Accounts SET Balance = Balance - @Amount WHERE AccountId = @AccountId;";
+            await connection.ExecuteAsync(sql, transaction);
+        }
     }
 
     public async Task<List<Transactions>> FindTransactionsByAccountIdAsync(int accountId)
