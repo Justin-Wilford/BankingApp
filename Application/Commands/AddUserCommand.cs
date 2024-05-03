@@ -7,7 +7,7 @@ public sealed class AddUserCommand : HttpEndpoint
     [HttpPost("Users")]
     public async Task ExecuteAsync(
         [FromServices] IUsersRepository usersRepository,
-        [FromBody] Users users)
+        [FromBody] User users)
     {
         await usersRepository.AddUserAsync(users);
     }

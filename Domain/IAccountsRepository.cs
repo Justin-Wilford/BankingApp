@@ -2,7 +2,7 @@ namespace BankingApi;
 
 public interface IAccountsRepository
 {
-    Task AddAccountAsync(Accounts account);
-    Task<List<Accounts>> FindAllAccountsAsync(int UserId);
-    Task<Accounts?> FindAccountByIdAsync(int accountId);
+    Task AddAccountAsync(Account account);
+    Task<List<Account>> FindAllAccountsAsync(int UserId);
+    Task<Account?> FindAccountByIdAsync(int accountId);
 }

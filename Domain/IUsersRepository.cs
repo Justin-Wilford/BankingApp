@@ -2,8 +2,8 @@ namespace BankingApi;
 
 public interface IUsersRepository
 {
-    Task AddUserAsync(Users users);
-    Task UpdateUserAsync(Users users);
-    Task<List<Users>> FindAllUsersAsync();
-    Task<Users?> FindUserByIdAsync(int userId);
+    Task AddUserAsync(User users);
+    Task UpdateUserAsync(User users);
+    Task<List<User>> FindAllUsersAsync();
+    Task<User?> FindUserByIdAsync(int userId);
 }

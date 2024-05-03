@@ -12,7 +12,7 @@ public sealed class DapperAccountsRepository : IAccountsRepository
     {
         _databaseOptions = databaseOptions;
     }
-    public async Task AddAccountAsync(Accounts account)
+    public async Task AddAccountAsync(Account account)
     {
         await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
         {
@@ -23,26 +23,26 @@ public sealed class DapperAccountsRepository : IAccountsRepository
         }
     }
 
-    public async Task<List<Accounts>> FindAllAccountsAsync(int userId)
+    public async Task<List<Account>> FindAllAccountsAsync(int userId)
     {
         await using var connection = new SqlConnection(_databaseOptions.ConnectionString);
         
         await connection.OpenAsync();
 
-        var sql = await connection.QueryAsync<Accounts>("SELECT * FROM Accounts Where UserId = @UserId", new {UserId = userId});
+        var sql = await connection.QueryAsync<Account>("SELECT * FROM Accounts Where UserId = @UserId", new {UserId = userId});
 
         return sql.ToList();
     }
 
-    public async Task<Accounts?> FindAccountByIdAsync(int accountId)
+    public async Task<Account?> FindAccountByIdAsync(int accountId)
     {
         await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
         {
             await connection.OpenAsync();
             
-            var sql = await connection.QuerySingleAsync<Accounts>("SELECT * FROM Accounts WHERE AccountId = @AccountId", new {AccountId = accountId});
+            var sql = await connection.QuerySingleAsync<Account>("SELECT * FROM Accounts WHERE AccountId = @AccountId", new {AccountId = accountId});
 
             return sql;
-        }  
+        }
     }
 }

@@ -5,7 +5,7 @@ namespace BankingApi.Application.Queries;
 public sealed class FindUserByIdQuery : HttpEndpoint
 {
     [HttpGet("users/{userId}")]
-    public async Task<Users> ExecuteAsync(
+    public async Task<User> ExecuteAsync(
         [FromServices] IUsersRepository usersRepository,
         [FromRoute] int userId)
     {

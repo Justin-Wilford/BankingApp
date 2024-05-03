@@ -7,7 +7,7 @@ public sealed class AddAccountCommand : HttpEndpoint
     [HttpPost("Account")]
     public async Task ExecuteAsync(
         [FromServices] IAccountsRepository accountsRepository,
-        [FromBody] Accounts accounts)
+        [FromBody] Account accounts)
     {
         await accountsRepository.AddAccountAsync(accounts);
     }

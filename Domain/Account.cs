@@ -1,6 +1,6 @@
 namespace BankingApi;
 
-public class Accounts
+public class Account
 {
     public int AccountId { get; set; }
     public int AccountNumber { get; set; }

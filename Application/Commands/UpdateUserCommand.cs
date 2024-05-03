@@ -7,7 +7,7 @@ public sealed class UpdateUserCommand : HttpEndpoint
     [HttpPut("users")]
     public async Task ExecuteAsync(
         [FromServices] IUsersRepository userRepository,
-        [FromBody] Users users)
+        [FromBody] User users)
     {
         await userRepository.UpdateUserAsync(users);
     }

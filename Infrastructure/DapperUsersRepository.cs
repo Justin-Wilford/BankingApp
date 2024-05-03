@@ -13,7 +13,7 @@ public sealed class DapperUsersRepository : IUsersRepository
         _databaseOptions = databaseOptions;
     }
 
-    public async Task AddUserAsync(Users users)
+    public async Task AddUserAsync(User users)
     {
         await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
         {
@@ -24,7 +24,7 @@ public sealed class DapperUsersRepository : IUsersRepository
         }
     }
 
-    public async Task UpdateUserAsync(Users users)
+    public async Task UpdateUserAsync(User users)
     {
         await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
         {
@@ -36,27 +36,27 @@ public sealed class DapperUsersRepository : IUsersRepository
                         WHERE UserId = @UserId";
 
             await connection.ExecuteAsync(sql, users);
-        }    
+        }
     }
 
-    public async Task<List<Users>> FindAllUsersAsync()
+    public async Task<List<User>> FindAllUsersAsync()
     {
         await using var connection = new SqlConnection(_databaseOptions.ConnectionString);
         
         await connection.OpenAsync();
 
-        var sql = await connection.QueryAsync<Users>("SELECT * FROM Users");
+        var sql = await connection.QueryAsync<User>("SELECT * FROM Users");
 
         return sql.ToList();
     }
 
-    public async Task<Users> FindUserByIdAsync(int userId)
+    public async Task<User> FindUserByIdAsync(int userId)
     {
         await using (var connection = new SqlConnection(_databaseOptions.ConnectionString))
         {
             await connection.OpenAsync();
             
-            var sql = await connection.QuerySingleAsync<Users>("SELECT * FROM Users WHERE UserId = @UserId", new {UserId = userId});
+            var sql = await connection.QuerySingleAsync<User>("SELECT * FROM Users WHERE UserId = @UserId", new {UserId = userId});
 
             return sql;
         }
