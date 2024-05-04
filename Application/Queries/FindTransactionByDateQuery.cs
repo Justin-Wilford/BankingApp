@@ -4,7 +4,7 @@ namespace BankingApi.Application.Queries;
 
 public sealed class FindTransactionsByDateQuery : HttpEndpoint
 {
-    [HttpGet("HeartRate")]
+    [HttpGet("transaction")]
     public async Task<List<Transactions>> ExecuteAsync(
         [FromQuery] DateTime TransactionDate,
         [FromQuery] int AccountId,
